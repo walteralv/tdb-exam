@@ -1,13 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AlumnoListItem from '../components/ListadoAlumnosItem';
+import axios from 'axios';
 
 const ListadoAlumnos = () => {
   // Datos de ejemplo de alumnos
-  const alumnos = [
-    { id: 1, nombre: 'Alumno 01', dni: '2024001' },
-    { id: 2, nombre: 'Alumno 02', dni: '2024002' },
-    { id: 3, nombre: 'Alumno 03', dni: '2024003' },
-  ];
+  const [students, setStudents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/students'); // Asegúrate de que la URL sea correcta
+        console.log(response.data);
+        setStudents(response.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStudents();
+  }, []);
+
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 py-12 px-4 sm:px-6 lg:px-8">
@@ -18,12 +34,12 @@ const ListadoAlumnos = () => {
         </div>
         <div className="border-t border-gray-200">
           <ul className="divide-y divide-gray-200">
-            {alumnos.map((alumno) => (
+            {students.map((student) => (
               <AlumnoListItem
-                key={alumno.id}
-                id={alumno.id}
-                nombre={alumno.nombre}
-                dni={alumno.dni}
+                key={student.studentId}
+                id={student.studentId}
+                nombre={student.name}
+                dni={student.dni}
               />
             ))}
           </ul>

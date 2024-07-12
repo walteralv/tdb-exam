@@ -3,18 +3,18 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class AddStudentDto {
   @ApiProperty()  
-  @IsString()
-  studentId: string;
-
-  @ApiProperty()
-  @IsString()
-  courseId: string;
+  @IsNumber()
+  studentId: number;
 
   @ApiProperty()
   @IsNumber()
-  nota1: number;
+  courseId: number;
 
   @ApiProperty()
   @IsNumber()
-  nota2: number;
+  note1: number;
+
+  @ApiProperty()
+  @IsNumber()
+  note2: number;
 }
